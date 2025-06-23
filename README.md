@@ -1,1 +1,1 @@
-# HealthWise
+# ClinicCare
