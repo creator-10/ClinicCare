@@ -5,10 +5,10 @@ const doctorModel = require("../models/doctorModel.js");
 
 const registerDoctor = async (req, res) => {
   try {
-        console.log("Doctor registration body:", req.body);
-    const { username, email, password, specialization, experience, fees, address, availabilitySlots } = req.body;
+    console.log("Doctor registration body:", req.body);
+    const { username, email, password, specialization, experience } = req.body;
 
-    if (!username || !email || !password || !specialization || !experience || !fees) {
+    if (!username || !email || !password || !specialization || !experience) {
       return res.status(400).json({ success: false, message: "Missing required fields" });
     }
 
@@ -39,9 +39,6 @@ const registerDoctor = async (req, res) => {
       email,
       specialization,
       experience,
-      fees,
-      address,
-      availabilitySlots,
       approved: false,
     });
     await newDoctor.save();

@@ -56,30 +56,7 @@ function AdminPendingDoctors() {
                     <b>Experience:</b> {doc.experience} years
                   </div>
                   <div>
-                    <b>Fees:</b> ₹{doc.fees}
-                  </div>
-                  <div>
                     <b>Email:</b> {doc.email}
-                  </div>
-                  <div>
-                    <b>Address:</b> {doc.address || <i>Not Provided</i>}
-                  </div>
-                  <div className="mt-2">
-                    <b>Availability Slots:</b>{' '}
-                    {doc.availabilitySlots && doc.availabilitySlots.length > 0 ? (
-                      <div className="flex flex-wrap gap-2 mt-1">
-                        {doc.availabilitySlots.map((slot, idx) => (
-                          <span
-                            key={idx}
-                            className="inline-block bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs"
-                          >
-                            {slot}
-                          </span>
-                        ))}
-                      </div>
-                    ) : (
-                      <span>Not Provided</span>
-                    )}
                   </div>
                   <div className="mt-2">
                     <b>Approved:</b> {doc.approved ? "Yes" : "No"}

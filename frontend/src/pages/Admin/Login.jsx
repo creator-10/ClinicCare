@@ -5,6 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { setToken } from "../../redux/slices/authSlice.js";
 import { toast } from "react-toastify";
 
+const SPECIALIZATIONS = [
+  "Dermatology",
+  "Radiology",
+  "Orthopedics",
+  "Peadiatrics",
+  "General Physician",
+  "Cardiology"
+];
+
 const Login = () => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const dispatch = useDispatch();
@@ -19,9 +28,6 @@ const Login = () => {
   const [username, setName] = useState("");
   const [specialization, setSpecialization] = useState("");
   const [experience, setExperience] = useState("");
-  const [fees, setFees] = useState("");
-  const [address, setAddress] = useState("");
-  const [availabilitySlots, setAvailabilitySlots] = useState("");
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -34,8 +40,7 @@ const Login = () => {
             !email.trim() ||
             !password.trim() ||
             !specialization.trim() ||
-            !experience.trim() ||
-            !fees.trim()
+            !experience.trim()
           ) {
             toast.error("Please fill all required doctor fields");
             return;
@@ -46,11 +51,6 @@ const Login = () => {
             password: password.trim(),
             specialization: specialization.trim(),
             experience: experience.trim(),
-            fees: Number(fees),
-            address: address.trim(),
-            availabilitySlots: availabilitySlots
-              ? availabilitySlots.split(",").map((s) => s.trim())
-              : [],
           };
           try {
             const response = await axios.post(
@@ -197,14 +197,19 @@ const Login = () => {
           <>
             <div className="w-full">
               <p>Specialization</p>
-              <input
+              <select
                 className="border border-zinc-300 rounded w-full p-2 mt-1"
-                type="text"
-                placeholder="e.g. Cardiologist"
-                onChange={(e) => setSpecialization(e.target.value)}
                 value={specialization}
+                onChange={(e) => setSpecialization(e.target.value)}
                 required
-              />
+              >
+                <option value="">Select specialization</option>
+                {SPECIALIZATIONS.map((spec) => (
+                  <option key={spec} value={spec}>
+                    {spec}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="w-full">
               <p>Experience (years)</p>
@@ -215,37 +220,6 @@ const Login = () => {
                 onChange={(e) => setExperience(e.target.value)}
                 value={experience}
                 required
-              />
-            </div>
-            <div className="w-full">
-              <p>Fees</p>
-              <input
-                className="border border-zinc-300 rounded w-full p-2 mt-1"
-                type="number"
-                placeholder="e.g. 500"
-                onChange={(e) => setFees(e.target.value)}
-                value={fees}
-                required
-              />
-            </div>
-            <div className="w-full">
-              <p>Address</p>
-              <input
-                className="border border-zinc-300 rounded w-full p-2 mt-1"
-                type="text"
-                placeholder="Clinic address"
-                onChange={(e) => setAddress(e.target.value)}
-                value={address}
-              />
-            </div>
-            <div className="w-full">
-              <p>Availability Slots (comma separated)</p>
-              <input
-                className="border border-zinc-300 rounded w-full p-2 mt-1"
-                type="text"
-                placeholder="e.g. 10:00-12:00, 14:00-16:00"
-                onChange={(e) => setAvailabilitySlots(e.target.value)}
-                value={availabilitySlots}
               />
             </div>
           </>
