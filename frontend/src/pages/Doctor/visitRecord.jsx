@@ -297,7 +297,7 @@ const VisitForm = () => {
                 </tr>
               ) : (
                 recentVisits.map((visit) => (
-                  <tr key={visit.id || visit._id} className="hover:bg-blue-50">
+                  <tr key={visit._id} className="hover:bg-blue-50">
                     <td className="py-2 px-3 border-b">{visit.date}</td>
                     <td className="py-2 px-3 border-b">{visit.appointmentId}</td>
                     <td className="py-2 px-3 border-b">{visit.patientName}</td>

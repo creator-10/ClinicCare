@@ -1,5 +1,4 @@
 const VisitRecord = require('../models/visitModel');
-const { v4: uuidv4 } = require('uuid'); // Add this at the top
 
 // Create a new visit record
 exports.createVisit = async (req, res) => {
@@ -33,9 +32,8 @@ exports.createVisit = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Missing required fields' });
     }
 
-    // Create unique id for visit record
+    // Create visit record (no id field)
     const visit = new VisitRecord({
-      id: uuidv4(),
       appointmentId,
       patientId,
       patientName,
@@ -79,7 +77,6 @@ exports.getVisitByAppointmentId = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-// ...existing code...
 
 // Get recent visit records (latest 10)
 exports.getRecentVisits = async (req, res) => {

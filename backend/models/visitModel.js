@@ -7,7 +7,6 @@ const MedicationSchema = new mongoose.Schema({
 });
 
 const VisitRecordSchema = new mongoose.Schema({
-  id: { type: String, required: true},
   appointmentId: { type: String, required: true  },
   patientId: { type: String, required: true },
   patientName: { type: String, required: true },
