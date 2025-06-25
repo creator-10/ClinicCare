@@ -2,21 +2,24 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PersonIcon from '@mui/icons-material/Person';
 
+const SPECIALIZATIONS = [
+  "Dermatology",
+  "Radiology",
+  "Orthopedics",
+  "Peadiatrics",
+  "General Physician",
+  "Cardiology"
+];
+
 function DoctorList() {
   const [doctors, setDoctors] = useState([]);
   const [specialization, setSpecialization] = useState('All');
-  const [specializations, setSpecializations] = useState([]);
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/doctors/list`)
       .then((res) => {
-        const docs = Array.isArray(res.data) ? res.data : [];
-        setDoctors(docs);
-        const specs = Array.from(
-          new Set(docs.map((doc) => doc.specialization).filter(Boolean))
-        );
-        setSpecializations(specs);
+        setDoctors(Array.isArray(res.data) ? res.data : []);
       })
       .catch(() => setDoctors([]));
   }, []);
@@ -27,68 +30,86 @@ function DoctorList() {
       : doctors.filter((doc) => doc.specialization === specialization);
 
   return (
-    <div className="max-w-3xl mx-auto mt-8">
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-2xl font-bold text-blue-700 text-center mb-4">
+    <div className="max-w-6xl mx-auto mt-12">
+      <div className="bg-white rounded-3xl shadow-2xl p-10 border border-blue-100">
+        <h2 className="text-4xl font-extrabold text-blue-700 text-center mb-8 tracking-tight">
           Approved Doctors
         </h2>
-        <hr className="mb-4" />
-        <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-1">
-            Specialization
-          </label>
-          <select
-            className="w-full border border-gray-300 rounded p-2 focus:outline-blue-400"
-            value={specialization}
-            onChange={(e) => setSpecialization(e.target.value)}
-          >
-            <option value="All">All</option>
-            {specializations.map((spec) => (
-              <option key={spec} value={spec}>
-                {spec}
-              </option>
-            ))}
-          </select>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+          <div className="w-full md:w-80">
+            <label className="block font-semibold text-gray-700 mb-2">
+              Filter by Specialization
+            </label>
+            <select
+              className="w-full border border-gray-300 rounded-xl p-3 focus:outline-blue-400 bg-gray-50 text-base"
+              value={specialization}
+              onChange={(e) => setSpecialization(e.target.value)}
+            >
+              <option value="All">All</option>
+              {SPECIALIZATIONS.map((spec) => (
+                <option key={spec} value={spec}>
+                  {spec}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-        <ul>
-          {Array.isArray(filteredDoctors) && filteredDoctors.length > 0 ? (
-            filteredDoctors.map((doc) => (
-              <li
-                key={doc._id}
-                className="flex items-start gap-4 bg-gray-50 rounded-lg p-4 mb-4 shadow-sm"
-              >
-                <div className="mt-1">
-                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-700">
-                    <PersonIcon fontSize="large" />
-                  </span>
-                </div>
-                <div className="flex-1">
-                  <div className="font-semibold text-lg text-blue-800">
-                    {doc.userId?.username || doc.userId?.name || 'Unknown'}
-                  </div>
-                  <div className="text-gray-700 mt-1">
-                    <div>
-                      <b>Specialization:</b> {doc.specialization}
-                    </div>
-                    <div>
-                      <b>Experience:</b> {doc.experience} years
-                    </div>
-                    <div>
-                      <b>Email:</b> {doc.email}
-                    </div>
-                  </div>
-                </div>
-              </li>
-            ))
-          ) : (
-            <div className="text-center text-gray-500 py-8">
-              No approved doctors.
-            </div>
-          )}
-        </ul>
+        <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-lg">
+          <table className="min-w-full bg-white divide-y divide-blue-100">
+            <thead>
+              <tr className="bg-gradient-to-r from-blue-50 to-blue-100">
+                <th className="py-4 px-6 text-left font-bold text-blue-700">#</th>
+                <th className="py-4 px-6 text-left font-bold text-blue-700">Doctor</th>
+                <th className="py-4 px-6 text-left font-bold text-blue-700">Specialization</th>
+                <th className="py-4 px-6 text-left font-bold text-blue-700">Experience</th>
+                <th className="py-4 px-6 text-left font-bold text-blue-700">Email</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-blue-50">
+              {filteredDoctors.length > 0 ? (
+                filteredDoctors.map((doc, idx) => (
+                  <tr
+                    key={doc._id}
+                    className="hover:bg-blue-50 transition group"
+                  >
+                    <td className="py-4 px-6 text-gray-700 font-medium">{idx + 1}</td>
+                    <td className="py-4 px-6 flex items-center gap-3">
+                      <span className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-blue-100 text-blue-700 border border-blue-200 shadow-sm group-hover:scale-105 transition">
+                        <PersonIcon fontSize="medium" />
+                      </span>
+                      <span className="font-semibold text-blue-900 text-lg">
+                        {doc.userId?.username || doc.userId?.name || 'Unknown'}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <span className="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-sm font-medium">
+                        {doc.specialization}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <span className="inline-block px-2 py-1 rounded bg-green-50 text-green-700 border border-green-200 text-sm font-semibold">
+                        {doc.experience} years
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <span className="inline-block px-2 py-1 rounded bg-gray-50 text-gray-700 border border-gray-200 text-sm">
+                        {doc.email}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="text-center py-12 text-gray-400 text-lg font-semibold">
+                    No approved doctors.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 }
-
 export default DoctorList;
