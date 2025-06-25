@@ -8,7 +8,6 @@ import AdminLayout from '../src/pages/Admin/AdminLayout'
 import AdminDashboard from '../src/pages/Admin/Dashboard'
 import VisitForm from './pages/Doctor/visitRecord'
 import AdminPendingDoctors from '../src/pages/Admin/PendingList'
-
 import  DoctorList from '../src/pages/Admin/DoctorList'
 
 

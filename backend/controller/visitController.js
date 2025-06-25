@@ -32,6 +32,12 @@ exports.createVisit = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Missing required fields' });
     }
 
+    // Check for duplicate by appointmentId
+    const existing = await VisitRecord.findOne({ appointmentId });
+    if (existing) {
+      return res.status(409).json({ success: false, message: 'Visit record for this appointment already exists.' });
+    }
+
     // Create visit record (no id field)
     const visit = new VisitRecord({
       appointmentId,
