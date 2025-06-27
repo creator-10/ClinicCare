@@ -1,5 +1,5 @@
 // here file name give patientController.js but in system saved as /controllers/userController.js
-import User from '../models/userModel.js'; // assuming Mongoose
+import User from '../models/userModel.js'; 
 import bcrypt from 'bcryptjs';
 
 import jwt from 'jsonwebtoken';
@@ -46,10 +46,7 @@ export const loginUser = async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ success: false, message: 'Invalid credentials' });
 
-    // Optionally issue an auth token
-    // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-
-    res.json({
+       res.json({
       success: true,
       user: {
         name: user.name,
@@ -60,7 +57,7 @@ export const loginUser = async (req, res) => {
         patientId: user.patientId,
         profilePic: user.profilePic || ''
       }
-      // token
+      
     });
   } catch (err) {
     console.error(err);
@@ -69,6 +66,6 @@ export const loginUser = async (req, res) => {
 };
 
 export const profileUser = async (req, res) => {
-  // example implementation
+  
   res.status(200).json(req.user);
 };
