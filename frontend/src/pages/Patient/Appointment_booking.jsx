@@ -4,15 +4,6 @@ import { useSelector } from "react-redux";
 
 const AppointmentBooking = () => {
   const navigate = useNavigate();
-  // const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
-
-  // useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     alert("Please login first to book an appointment.");
-  //     navigate("/login");
-  //   }
-  // }, [isLoggedIn, navigate]);
-
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
