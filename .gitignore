@@ -3,3 +3,9 @@
 
 # Ignore node modules
 node_modules/
+backend/middlewares/authAdmin.js
+frontend/public/vite.svg
+frontend/src/pages/Admin/PendingList.jsx
+frontend/src/App.css
+frontend/src/authTest.jsx
+
