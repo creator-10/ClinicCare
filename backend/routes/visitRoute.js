@@ -1,12 +1,24 @@
-const express = require('express');
+// routes/visitRoute.js
+import express from "express";
+import {
+  createVisit,
+  getAllVisits,
+  getVisitById,
+  getVisitByAppointmentId,
+  getRecentVisits,
+ 
+} from "../controller/visitController.js";
+
+import auth from "../middlewares/authUser.js";
+
 const router = express.Router();
-const visitController = require('../controller/visitController');
-const auth = require('../middlewares/authUser');
 
-// All routes protected for doctors (or adjust as needed)
-router.post('/', auth('doctor'), visitController.createVisit);
-router.get('/all', auth(), visitController.getAllVisits);
-router.get('/recent', auth(), visitController.getRecentVisits); // <-- Add this line
-router.get('/:appointmentId', auth(), visitController.getVisitByAppointmentId);
+router.post("/", auth("doctor"), createVisit);
+router.get("/", auth("doctor"), getAllVisits);
+router.get("/recent", auth("doctor"), getRecentVisits);
+router.get("/appointment/:appointmentId", auth(), getVisitByAppointmentId);
+router.get("/:id", auth("doctor"), getVisitById);
 
-module.exports = router;
+
+
+export default router;

@@ -1,15 +1,19 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
+  loginAdmin,
   getPendingDoctors,
   approveDoctor,
   rejectDoctor,
-  getApprovedDoctors,
-} = require('../controller/adminController');
+  getDoctorsList
+} from '../controller/adminController.js';
+import auth from '../middlewares/authUser.js';
+
 const router = express.Router();
 
-router.get('/doctors/pending', getPendingDoctors);
-router.post('/doctors/:id/approve', approveDoctor);
-router.delete('/doctors/:id', rejectDoctor);
-router.get('/doctors/list', getApprovedDoctors);
+router.post('/login', loginAdmin);
+router.get('/doctors/pending', auth('admin'), getPendingDoctors);
+router.post('/doctors/:id/approve', auth('admin'), approveDoctor);
+router.delete('/doctors/:id', auth('admin'), rejectDoctor);
+router.get('/doctors/list', auth(),getDoctorsList);
 
-module.exports = router;
+export default router;

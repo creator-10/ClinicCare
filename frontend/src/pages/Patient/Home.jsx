@@ -1,11 +1,22 @@
-import React from 'react'
+import React from 'react';
+
+import SpecialityMenu from '../../components/SpecialityMenu';
+import Scheduleappointment from '../../components/Scheduleappointment';
 
 const Home = () => {
-  return (
-    <div>
-      <h1>Vishnu Raj</h1>
-    </div>
-  )
-}
+ 
 
-export default Home
+  return (
+    <div className="flex min-h-screen">
+     
+
+      {/* Main Content Area */}
+      <div className="flex-1 p-6">
+        <SpecialityMenu />
+        <Scheduleappointment />
+      </div>
+    </div>
+  );
+};
+
+export default Home;

@@ -1,7 +1,10 @@
-const VisitRecord = require('../models/visitModel');
+
+
+import mongoose from 'mongoose';
+import VisitRecord from '../models/visitModel.js';
 
 // Create a new visit record
-exports.createVisit = async (req, res) => {
+export const createVisit = async (req, res) => {
   try {
     const {
       appointmentId,
@@ -14,31 +17,21 @@ exports.createVisit = async (req, res) => {
       diagnosis,
       medications,
       advice,
-      doctor
+      doctor,
     } = req.body;
 
-    // Validate required fields
     if (
-      !appointmentId ||
-      !patientId ||
-      !patientName ||
-      !date ||
-      !age ||
-      !gender ||
-      !symptoms ||
-      !diagnosis ||
-      !doctor
+      !appointmentId || !patientId || !patientName || !date ||
+      !age || !gender || !symptoms || !diagnosis || !doctor
     ) {
       return res.status(400).json({ success: false, message: 'Missing required fields' });
     }
 
-    // Check for duplicate by appointmentId
     const existing = await VisitRecord.findOne({ appointmentId });
     if (existing) {
       return res.status(409).json({ success: false, message: 'Visit record for this appointment already exists.' });
     }
 
-    // Create visit record (no id field)
     const visit = new VisitRecord({
       appointmentId,
       patientId,
@@ -50,7 +43,7 @@ exports.createVisit = async (req, res) => {
       diagnosis,
       medications,
       advice,
-      doctor
+      doctor,
     });
 
     await visit.save();
@@ -61,7 +54,7 @@ exports.createVisit = async (req, res) => {
 };
 
 // Get all visit records
-exports.getAllVisits = async (req, res) => {
+export const getAllVisits = async (req, res) => {
   try {
     const visits = await VisitRecord.find().sort({ createdAt: -1 });
     res.status(200).json({ success: true, data: visits });
@@ -70,22 +63,46 @@ exports.getAllVisits = async (req, res) => {
   }
 };
 
-// Get visit record by appointmentId
-exports.getVisitByAppointmentId = async (req, res) => {
+// Get visit by ID
+export const getVisitById = async (req, res) => {
   try {
-    const { appointmentId } = req.params;
-    const visit = await VisitRecord.findOne({ appointmentId });
-    if (!visit) {
-      return res.status(404).json({ success: false, message: 'Visit record not found' });
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid visit ID format' });
     }
+
+    const visit = await VisitRecord.findById(id);
+    if (!visit) {
+      return res.status(404).json({ success: false, message: 'Visit not found' });
+    }
+
     res.status(200).json({ success: true, data: visit });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// Get recent visit records (latest 10)
-exports.getRecentVisits = async (req, res) => {
+//  Get visit by appointment ID
+export const getVisitByAppointmentId = async (req, res) => {
+  console.log("Request from:", req.user);
+  const { appointmentId } = req.params;
+
+  try {
+    const visit = await VisitRecord.findOne({ appointmentId });
+    if (!visit) {
+      return res.status(404).json({ success: false, message: "Visit not found" });
+    }
+
+    res.status(200).json({ success: true, data: visit });
+  } catch (error) {
+    console.error("getVisitByAppointmentId error:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// Get recent visits
+export const getRecentVisits = async (req, res) => {
   try {
     const visits = await VisitRecord.find().sort({ createdAt: -1 }).limit(10);
     res.status(200).json({ success: true, data: visits });
@@ -93,3 +110,5 @@ exports.getRecentVisits = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+

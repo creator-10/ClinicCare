@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const MedicationSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -17,7 +17,8 @@ const VisitRecordSchema = new mongoose.Schema({
   diagnosis: { type: String, required: true },
   medications: { type: [MedicationSchema], default: [] },
   advice: { type: String },
-  doctor: { type: String, required: true }
+  doctor: { type: String, required: true },
 }, { timestamps: true });
 
-module.exports = mongoose.models.VisitRecord || mongoose.model('VisitRecord', VisitRecordSchema);
+const VisitRecord = mongoose.models.VisitRecord || mongoose.model('VisitRecord', VisitRecordSchema);
+export default VisitRecord;

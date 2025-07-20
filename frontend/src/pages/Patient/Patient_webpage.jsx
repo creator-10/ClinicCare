@@ -1,18 +1,27 @@
-import React from 'react'
-import Header from '../components/Header';
-import SpecialityMenu from '../components/SpecialityMenu';
-import Scheduleappointment from '../components/Scheduleappointment';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import Header from '../../components/Header';
+import PatientSidebar from '../../components/PatientSideBar';
 
 const Patient_webpage = () => {
-  return (
-    <div>
-      
-      <Header />
-      <SpecialityMenu />
-      <Scheduleappointment />
-     
-    </div>
-  )
-}
+  const { patientId } = useSelector((state) => state.auth);
 
-export default Patient_webpage
+  return (
+    <div className="flex min-h-screen flex-col md:flex-row">
+      {/* Sidebar: visible only if patient is logged in */}
+      {patientId && (
+        <div className="w-64 hidden md:block border-r shadow-sm">
+          <PatientSidebar /> 
+        </div>
+      )}
+
+      {/* Main content */}
+      <div className="flex-1">
+        <Header />
+        {/* Add any other main homepage content below if needed */}
+      </div>
+    </div>
+  );
+};
+
+export default Patient_webpage;

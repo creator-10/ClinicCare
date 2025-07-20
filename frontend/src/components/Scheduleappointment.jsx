@@ -1,23 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets';
+import { useSelector } from 'react-redux';
 
 const Scheduleappointment = () => {
   const navigate = useNavigate();
 
-  const handleBookNowClick = () => {
-    // Optional login logic (uncomment to enable auth-based routing):
-    // const token = localStorage.getItem('token');
-    // if (token) {
-    //   navigate('/appointment-booking');
-    // } else {
-    //   localStorage.setItem('redirectAfterLogin', '/appointment-booking');
-    //   navigate('/login');
-    // }
+ const { token } = useSelector((state) => state.auth);
 
-    // For now, just navigate directly:
+const handleBookNowClick = () => {
+  if (token) {
     navigate('/appointment-booking');
-  };
+  } else {
+    localStorage.setItem('redirectAfterLogin', '/appointment-booking');
+    navigate('/login');
+  }
+};
+
+
 
   return (
     <div className="flex flex-col items-center gap-4 my-16 text-gray-900 md:mx-10">

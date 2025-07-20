@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PersonIcon from '@mui/icons-material/Person';
+import { useSelector } from 'react-redux';
 
 const SPECIALIZATIONS = [
   "Dermatology",
   "Radiology",
   "Orthopedics",
-  "Peadiatrics",
+  "Pediatrics",
   "General Physician",
   "Cardiology"
 ];
@@ -14,12 +15,19 @@ const SPECIALIZATIONS = [
 function DoctorList() {
   const [doctors, setDoctors] = useState([]);
   const [specialization, setSpecialization] = useState('All');
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/doctors/list`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/doctors/list`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
-        setDoctors(Array.isArray(res.data) ? res.data : []);
+        const docs = Array.isArray(res.data) ? res.data : [];
+        setDoctors(docs);
+        setSpecialization('All');
       })
       .catch(() => setDoctors([]));
   }, []);
@@ -30,12 +38,13 @@ function DoctorList() {
       : doctors.filter((doc) => doc.specialization === specialization);
 
   return (
-    <div className="max-w-6xl mx-auto mt-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
       <div className="bg-white rounded-3xl shadow-2xl p-10 border border-blue-100">
         <h2 className="text-4xl font-extrabold text-blue-700 text-center mb-8 tracking-tight">
           Approved Doctors
         </h2>
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-6">
           <div className="w-full md:w-80">
             <label className="block font-semibold text-gray-700 mb-2">
               Filter by Specialization
@@ -54,8 +63,9 @@ function DoctorList() {
             </select>
           </div>
         </div>
-        <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-lg">
-          <table className="min-w-full bg-white divide-y divide-blue-100">
+
+        <div className="overflow-x-auto rounded-xl border border-gray-200 shadow">
+          <table className="min-w-full bg-white divide-y divide-blue-100 text-sm">
             <thead>
               <tr className="bg-gradient-to-r from-blue-50 to-blue-100">
                 <th className="py-4 px-6 text-left font-bold text-blue-700">#</th>
@@ -68,16 +78,13 @@ function DoctorList() {
             <tbody className="divide-y divide-blue-50">
               {filteredDoctors.length > 0 ? (
                 filteredDoctors.map((doc, idx) => (
-                  <tr
-                    key={doc._id}
-                    className="hover:bg-blue-50 transition group"
-                  >
+                  <tr key={doc._id} className="hover:bg-blue-50 transition group">
                     <td className="py-4 px-6 text-gray-700 font-medium">{idx + 1}</td>
                     <td className="py-4 px-6 flex items-center gap-3">
                       <span className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-blue-100 text-blue-700 border border-blue-200 shadow-sm group-hover:scale-105 transition">
                         <PersonIcon fontSize="medium" />
                       </span>
-                      <span className="font-semibold text-blue-900 text-lg">
+                      <span className="font-semibold text-blue-900 text-base">
                         {doc.userId?.username || doc.userId?.name || 'Unknown'}
                       </span>
                     </td>
@@ -93,7 +100,7 @@ function DoctorList() {
                     </td>
                     <td className="py-4 px-6">
                       <span className="inline-block px-2 py-1 rounded bg-gray-50 text-gray-700 border border-gray-200 text-sm">
-                        {doc.email}
+                        {doc.userId?.email || 'Not provided'}
                       </span>
                     </td>
                   </tr>
@@ -101,7 +108,7 @@ function DoctorList() {
               ) : (
                 <tr>
                   <td colSpan={5} className="text-center py-12 text-gray-400 text-lg font-semibold">
-                    No approved doctors.
+                    No approved doctors found.
                   </td>
                 </tr>
               )}
@@ -112,4 +119,5 @@ function DoctorList() {
     </div>
   );
 }
+
 export default DoctorList;

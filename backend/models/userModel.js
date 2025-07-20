@@ -1,33 +1,24 @@
-const mongoose=require('mongoose')
+import mongoose from "mongoose";
 
-const userSchema= new mongoose.Schema({
+const userSchema = new mongoose.Schema({
+  patientId: { type: String, unique: true, index: true },
+  username: { type: String, required: true, trim: true },
+  email: { type: String, required: true, unique: true, lowercase: true },
+  password: { type: String, required: true },
+  phone: { type: String, default: "" },
+  profilePic: { type: String, default: "" },
+  gender: { type: String, enum: ["Male", "Female", "Other"], default: "" },
+  dob: { type: Date },
+  address: {
+    line1: { type: String, default: "" },
+    line2: { type: String, default: "" }
+  },
+  role: {
+    type: String,
+    default: "patient",
+    enum: ["patient", "doctor", "admin"],
+  },
+}, { timestamps: true });
 
-    username:{
-        type:String,
-        required:true,
-    },
-    email:{
-        type:String,
-        required:true,
-        unique:true
-    },
-    password:{
-        type:String,
-        required:true
-    },
-     contact:{
-        type:String,
-        default:"0000000000"
-    },
-
-    role:{
-        type:String,
-        enum:["admin","doctor","patient"],
-        default:"patient"
-    },
-
-   
-},{timestamps:true, minimize:false});
-
-const userModel=mongoose.models.user || mongoose.model('user',userSchema)
-module.exports=userModel;
+const userModel = mongoose.models.user || mongoose.model('user', userSchema);
+export default userModel;
