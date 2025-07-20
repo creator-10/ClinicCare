@@ -56,12 +56,6 @@ export const rejectDoctor = async (req, res) => {
   res.json({ message: 'Doctor rejected and deleted' });
 };
 
-// export const getApprovedDoctors = async (req, res) => {
-//   const doctors = await Doctor.find({ approved: true }).populate('userId');
-//   res.json(doctors);
-// };
-
-
 export const getDoctorsList = async (req, res) => {
   try {
     const doctors = await Doctor
