@@ -4,7 +4,9 @@ export const updateProfile = async (req, res) => {
   try {
     const { patientId, name, email, phone, address, gender, dob, image } = req.body;
 
-    if (!patientId) return res.status(400).json({ error: "Missing patientId" });
+    if (!patientId) {
+      return res.status(400).json({ success: false, error: "Missing patientId" });
+    }
 
     const updatedProfile = await Profile.findOneAndUpdate(
       { patientId },
@@ -12,10 +14,19 @@ export const updateProfile = async (req, res) => {
       { new: true, upsert: true }
     );
 
-    res.json(updatedProfile);
+    if (!updatedProfile) {
+      return res.status(500).json({ success: false, error: "Failed to update profile" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      profile: updatedProfile,
+      image: updatedProfile.image,
+    });
   } catch (err) {
     console.error("Error updating profile:", err);
-    res.status(500).json({ error: "Server error while updating profile" });
+    res.status(500).json({ success: false, error: "Server error while updating profile" });
   }
 };
 
