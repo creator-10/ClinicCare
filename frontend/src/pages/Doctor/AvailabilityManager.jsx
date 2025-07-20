@@ -36,7 +36,7 @@ const AvailabilityManager = () => {
         const grouped = {};
        slotDates.forEach((isoSlot) => {
   const dateObj = new Date(isoSlot);
-  const hours = dateObj.getHours(); // ✅ FIXED HERE
+  const hours = dateObj.getHours(); 
   let timeBlock = null;
   if (hours < 12) timeBlock = "9am to 12pm";
   else if (hours < 16) timeBlock = "1pm to 4pm";
