@@ -60,7 +60,7 @@ export const getDoctorsList = async (req, res) => {
   try {
     const doctors = await Doctor
       .find({approved:true})
-      .populate('userId'); // include profilePic!
+      .populate('userId'); 
 
     return res.status(200).json(doctors);
   } catch (err) {

@@ -14,6 +14,6 @@ router.post('/login', loginAdmin);
 router.get('/doctors/pending', auth('admin'), getPendingDoctors);
 router.post('/doctors/:id/approve', auth('admin'), approveDoctor);
 router.delete('/doctors/:id', auth('admin'), rejectDoctor);
-router.get('/doctors/list', auth(),getDoctorsList);
+router.get('/doctors/list',getDoctorsList);
 
 export default router;
