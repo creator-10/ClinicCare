@@ -119,7 +119,8 @@ const Appointment_history = () => {
       pdf.save(`prescription_${prescription.appointmentId}.pdf`);
       toast.success("PDF downloaded successfully.");
     } catch (error) {
-      toast.error("Failed to download PDF.");
+
+      toast.error("Failed to download PDF.",error);
     }
   };
 
