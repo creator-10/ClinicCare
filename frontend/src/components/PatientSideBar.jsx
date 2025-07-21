@@ -4,8 +4,9 @@ import { useDispatch } from 'react-redux';
 import { logout as clearAuth } from '../redux/slices/authSlice';
 import { assets } from '../assets/assets';
 
-// MUI Imports
+// MUI Icons
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 
 const SidebarLink = ({ to, icon, title, className = '' }) => (
@@ -16,7 +17,11 @@ const SidebarLink = ({ to, icon, title, className = '' }) => (
         isActive ? 'bg-gray-200 font-semibold' : ''
       } ${className}`
     }
-    onClick={() => window.innerWidth < 768 && document.body.classList.remove('sidebar-open')}
+    onClick={() => {
+      if (window.innerWidth < 768) {
+        document.body.classList.remove('sidebar-open');
+      }
+    }}
   >
     {icon && <img src={icon} alt={`${title} icon`} className="w-5 h-5" />}
     {title}
@@ -38,7 +43,7 @@ const PatientSidebar = () => {
   };
 
   const toggleMobileSidebar = () => {
-    setMobileSidebarOpen((prev) => !prev);
+    setMobileSidebarOpen(prev => !prev);
     document.body.classList.toggle('sidebar-open');
   };
 
@@ -55,15 +60,17 @@ const PatientSidebar = () => {
 
   return (
     <>
-      {/* MUI Hamburger Icon Button for Mobile */}
-      <IconButton
-        className="md:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded shadow-md"
-        onClick={toggleMobileSidebar}
-        size="large"
-        aria-label="Open sidebar"
-      >
-        <MenuIcon />
-      </IconButton>
+      {/* Hamburger Icon at Top Left (Mobile) */}
+      <div className="md:hidden fixed top-0 right-0 z-50">
+        <IconButton
+          onClick={toggleMobileSidebar}
+          size="large"
+          aria-label="Open sidebar"
+          className="bg-white p-2 rounded shadow-md"
+        >
+          <MenuIcon />
+        </IconButton>
+      </div>
 
       {/* Sidebar */}
       <div
@@ -72,12 +79,19 @@ const PatientSidebar = () => {
           background: 'linear-gradient(180deg, #e0f7fa, #f1faff, #b3e5fc)',
         }}
       >
+        {/* Close Icon (Only on Mobile) */}
+        <div className="flex justify-end md:hidden">
+          <IconButton onClick={toggleMobileSidebar} aria-label="Close sidebar">
+            <CloseIcon />
+          </IconButton>
+        </div>
+
         <SidebarLink to="/patient/home" icon={assets.Home} title="Home" />
         <SidebarLink to="/profile" icon={assets.profile} title="Profile" />
         <SidebarLink to="/doctors" icon={assets.doctorimage} title="Find Doctors" />
 
         <button
-          onClick={() => setShowSpecialist((prev) => !prev)}
+          onClick={() => setShowSpecialist(prev => !prev)}
           className="flex items-center gap-3 px-4 py-2 text-gray-700 rounded hover:bg-gray-100"
         >
           <img src={assets.specialist} alt="Specialist icon" className="w-5 h-5" />
