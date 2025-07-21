@@ -1,0 +1,54 @@
+/* ===== Global Base Styles ===== */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Layout Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Headings and Text */
+h1, h2, h3, h4, h5, h6 {
+  word-break: break-word;
+}
+
+/* Flex Responsive Layout */
+.responsive-flex {
+  display: flex;
+  gap: 16px;
+}
+
+/* Hide items on mobile */
+.hide-on-mobile {
+  display: block;
+}
+
+/* Center content on mobile */
+.mobile-center {
+  text-align: left;
+}
+
+/* ===== Mobile Responsive Overrides ===== */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .responsive-flex {
+    flex-direction: column;
+  }
+
+  .hide-on-mobile {
+    display: none;
+  }
+
+  .mobile-center {
+    text-align: center;
+  }
+}
