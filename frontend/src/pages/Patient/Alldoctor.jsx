@@ -16,16 +16,26 @@ const Alldoctor = () => {
       .catch(console.error);
   }, []);
 
-  // Helper to extract first letter after "Dr."
-  const getFirstLetter = (name = '') => {
-    if (!name) return '?';
-    const parts = name.split('.');
-    if (parts.length > 1 && parts[0].toLowerCase().includes('dr')) {
-      const afterDr = parts[1].trim();
-      return afterDr.charAt(0).toUpperCase();
-    }
-    return name.trim().charAt(0).toUpperCase();
-  };
+// Helper to extract first letter after "Dr" or "Dr."
+const getFirstLetter = (name = '') => {
+  if (!name) return '?';
+
+  // Normalize whitespace and case
+  const normalized = name.trim().toLowerCase();
+
+  // Check if it starts with "dr" or "dr."
+  const drMatch = /^dr\.?\s*/i;
+
+  if (drMatch.test(normalized)) {
+    // Remove "dr" or "dr." and get the first character of the rest
+    const rest = name.replace(drMatch, '').trim();
+    return rest.charAt(0).toUpperCase() || '?';
+  }
+
+  // Default: return first letter of the name
+  return name.trim().charAt(0).toUpperCase();
+};
+
 
   return (
     <div className="flex min-h-screen">
