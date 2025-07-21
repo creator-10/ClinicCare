@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import PatientSidebar from '../../components/PatientSideBar';
+import PatientSidebar from '../../components/PatientSidebar';
 import axios from 'axios';
 import { assets } from "../../assets/assets"; // ✅ Correct image import
 
@@ -55,7 +55,9 @@ const Feedback = () => {
           <PatientSidebar />
         </div>
       )} */}
-
+<h2 className="absolute left-1/2 transform -translate-x-1/2 text-3xl font-black text-white uppercase z-0">
+              Feedback
+            </h2>
       <div className="flex-1 p-6 flex items-center justify-center relative z-10">
         <form
           className="flex flex-col gap-3 p-8 bg-white/90 backdrop-blur-md border rounded-xl text-zinc-700 text-sm shadow-2xl w-full max-w-md"
