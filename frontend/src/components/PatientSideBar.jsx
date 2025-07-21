@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout as clearAuth } from '../redux/slices/authSlice';
@@ -47,12 +47,17 @@ const PatientSidebar = () => {
     document.body.classList.toggle('sidebar-open');
   };
 
+  // Clean up sidebar-open class on unmount
+  useEffect(() => {
+    return () => document.body.classList.remove('sidebar-open');
+  }, []);
+
   const isFullHeightPage =
     location.pathname === '/appointment-booking' ||
     location.pathname === '/patient/home' ||
     location.pathname === '/about';
 
-  const sidebarClass = `fixed md:static top-0 left-0 z-50 w-64 bg-white border-r shadow-md transition-transform transform duration-300 ease-in-out
+  const sidebarClass = `fixed md:static top-0 left-0 z-40 w-64 bg-white border-r shadow-md transition-transform transform duration-300 ease-in-out
     ${isFullHeightPage ? 'h-full' : 'min-h-screen'}
     ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
     p-4 flex flex-col gap-4
@@ -60,13 +65,13 @@ const PatientSidebar = () => {
 
   return (
     <>
-      {/* Hamburger Icon at Top Left (Mobile) */}
-      <div className="md:hidden fixed top-0 right-0 z-50">
+      {/* Fixed Top Navbar on Mobile with Menu Icon */}
+      <div className="md:hidden fixed top-4 right-4 z-50">
         <IconButton
           onClick={toggleMobileSidebar}
           size="large"
           aria-label="Open sidebar"
-          className="bg-white p-2 rounded shadow-md"
+          className="bg-white shadow-md rounded"
         >
           <MenuIcon />
         </IconButton>
@@ -79,7 +84,6 @@ const PatientSidebar = () => {
           background: 'linear-gradient(180deg, #e0f7fa, #f1faff, #b3e5fc)',
         }}
       >
-        {/* Close Icon (Only on Mobile) */}
         <div className="flex justify-end md:hidden">
           <IconButton onClick={toggleMobileSidebar} aria-label="Close sidebar">
             <CloseIcon />
