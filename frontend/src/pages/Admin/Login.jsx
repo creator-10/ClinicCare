@@ -11,7 +11,7 @@ const SPECIALIZATIONS = [
   "Dermatology",
   "Radiology",
   "Orthopedics",
-  "Paediatrics",
+  "Pediatrics",
   "General Physician",
   "Cardiology",
 ];
