@@ -9,20 +9,15 @@ const Home = () => {
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar - Left side */}
-      {patientId && (
-        <div className="hidden md:block w-64">
+      {/* Show sidebar only if patient is logged in */}
+      {/* {patientId && (
+        <div className="w-64 hidden md:block border-r">
           <PatientSidebar />
         </div>
-      )}
+      )} */}
 
-      {/* Main content - Right side */}
-      <div className="flex-1 p-4 md:p-6">
-        {/* On mobile, show sidebar in overlay inside PatientSidebar component */}
-        <div className="md:hidden">
-          <PatientSidebar />
-        </div>
-
+      {/* Main Content Area */}
+      <div className="flex-1 p-6">
         <SpecialityMenu />
         <Scheduleappointment />
       </div>
