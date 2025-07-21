@@ -17,7 +17,7 @@ const Home = () => {
       )}
 
       {/* Main content - Right side */}
-      <div className="flex-1 p-4 md:p-6">
+      <div className="flex-1 p-4 md:p-
         {/* On mobile, show sidebar in overlay inside PatientSidebar component */}
         <div className="md:hidden">
           <PatientSidebar />
