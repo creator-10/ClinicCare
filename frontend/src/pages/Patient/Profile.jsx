@@ -70,48 +70,43 @@ const Profile = () => {
   };
 
   const handleSave = async () => {
-    const patientId = userData.patientId;
-    if (!patientId) {
-      alert('Missing Patient ID');
-      return;
-    }
+  const patientId = userData.patientId;
+  if (!patientId) {
+    alert('Missing Patient ID');
+    return;
+  }
 
-    const payload = {
-      patientId,
-      phone: userData.phone,
-      address: userData.address,
-      dob: userData.dob,
-      image: userData.image,
-    };
-
-    try {
-      
-     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile/update`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(payload),
-});
-const data = await res.json();
- {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-
-      if (res.ok) {
-        dispatch(fetchUserProfile(patientId));
-        dispatch(setProfilePic(data.image || userData.image));
-        setIsEdit(false);
-        alert('Profile saved successfully!');
-      } else {
-        alert(data.error || 'Update failed');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Error saving profile');
-    }
+  const payload = {
+    patientId,
+    phone: userData.phone,
+    address: userData.address,
+    dob: userData.dob,
+    image: userData.image,
   };
+
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile/update`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      dispatch(fetchUserProfile(patientId));
+      dispatch(setProfilePic(data.image || userData.image));
+      setIsEdit(false);
+      alert('Profile saved successfully!');
+    } else {
+      alert(data.error || 'Update failed');
+    }
+  } catch (error) {
+    console.error(error);
+    alert('Error saving profile');
+  }
+};
+
 
   return (
     <div className="flex min-h-full bg-gray-50">
