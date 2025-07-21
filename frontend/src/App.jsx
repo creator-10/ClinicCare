@@ -7,6 +7,9 @@ import { useSelector } from "react-redux";
 import MainLayout from "./components/MainLayout";
 import Navbar from "./components/Navbar";
 
+//mobile-responsive
+import './global.css';
+
 // Toastify
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
