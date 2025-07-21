@@ -4,6 +4,10 @@ import { useDispatch } from 'react-redux';
 import { logout as clearAuth } from '../redux/slices/authSlice';
 import { assets } from '../assets/assets';
 
+// MUI Imports
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
+
 const SidebarLink = ({ to, icon, title, className = '' }) => (
   <NavLink
     to={to}
@@ -51,13 +55,15 @@ const PatientSidebar = () => {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
-      <button
+      {/* MUI Hamburger Icon Button for Mobile */}
+      <IconButton
         className="md:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded shadow-md"
         onClick={toggleMobileSidebar}
+        size="large"
+        aria-label="Open sidebar"
       >
-        <img src={assets.menu} alt="Menu" className="w-6 h-6" />
-      </button>
+        <MenuIcon />
+      </IconButton>
 
       {/* Sidebar */}
       <div
@@ -81,11 +87,7 @@ const PatientSidebar = () => {
 
         {showSpecialist && (
           <div className="ml-6 flex flex-col gap-2 text-sm">
-            <SidebarLink
-              to="/doctors/General%20physician"
-              icon={assets.general_physicianicon}
-              title="General Physician"
-            />
+            <SidebarLink to="/doctors/General%20physician" icon={assets.general_physicianicon} title="General Physician" />
             <SidebarLink to="/doctors/Dermatology" icon={assets.dermatology} title="Dermatology" />
             <SidebarLink to="/doctors/Radiology" icon={assets.Radiologys} title="Radiology" />
             <SidebarLink to="/doctors/Orthopedics" icon={assets.orthopedics} title="Orthopedics" />
