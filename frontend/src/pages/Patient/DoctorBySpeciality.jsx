@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { assets } from '../../assets/assets';
-import PatientSidebar from '../../components/PatientSideBar';
+import PatientSidebar from '../../components/PatientSidebar';
 
 const DoctorBySpeciality = () => {
   const { speciality } = useParams();
@@ -60,7 +60,7 @@ const DoctorBySpeciality = () => {
               />
             </Link>
 
-            <h2 className="absolute left-1/2 transform -translate-x-1/2 text-5xl font-black text-white tracking-tight uppercase text-center z-0">
+            <h2 className="absolute left-1/2 transform -translate-x-1/2 text-5l font-black text-white tracking-tight uppercase text-center z-0">
               {speciality} Specialists
             </h2>
 
