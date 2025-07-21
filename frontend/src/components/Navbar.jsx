@@ -1,16 +1,13 @@
-// src/components/Navbar.jsx
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, NavLink} from 'react-router-dom';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import { logout as clearAuth } from '../redux/slices/authSlice.js';
-import { clearUserProfile } from '../redux/slices/profileSlice.js';
-
 import { assets } from '../assets/assets.js';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const location = useLocation();
+  const location = useLocation();
 
   const { token, role } = useSelector((state) => state.auth);
   const profilePic = useSelector((state) => state.profile.profilePic) || assets.profile_pic;
@@ -19,46 +16,22 @@ const Navbar = () => {
     dispatch(clearAuth());
     localStorage.removeItem('token');
     localStorage.removeItem('profilePic');
-    dispatch(clearUserProfile());
     navigate('/');
   };
 
-  
-    const gradientStyle = `
+  // Gradient background animation
+  const gradientStyle = `
     .animated-navbar-bg {
       background: linear-gradient(90deg, #e0f7fa, #b2fefa, #0ed2f7, #3a99d8, #4fc3f7, #e0f7fa);
     }
   `;
 
-  
-
-  // Admin or Doctor Layout
-  if (token && (role === 'doctor' || role === 'admin')) {
-    return (
-      <>
-        <style>{gradientStyle}</style>
-        <div className="flex justify-between items-center px-4 sm:px-10 py-3 border-b bg-white animated-navbar-bg">
-          <div className="flex items-center gap-2 text-xs">
-            <p className="border px-2.5 py-0.5 rounded-full border-gray-500 text-gray-600 capitalize">
-              {role}
-            </p>
-          </div>
-          <button
-            onClick={handleLogout}
-            className="bg-primary text-white text-sm px-10 py-2 rounded-full"
-          >
-            Logout
-          </button>
-        </div>
-      </>
-    );
-  }
-
-  // Default (Public or Patient) Layout
   return (
     <>
       <style>{gradientStyle}</style>
-      <div className="flex flex-wrap items-center justify-between py-3 mb-5 border-b border-b-gray-400 gap-y-4 px-4 animated-navbar-bg">
+
+      {/* Only show on md and above */}
+      <div className="hidden md:flex flex-wrap items-center justify-between py-3 mb-5 border-b border-b-gray-400 gap-y-4 px-4 animated-navbar-bg">
         {/* Logo */}
         <div className="flex items-center gap-2">
           <img
@@ -73,7 +46,7 @@ const Navbar = () => {
         </div>
 
         {/* Nav Links */}
-        <ul className="hidden md:flex gap-8 font-medium items-center">
+        <ul className="flex gap-8 font-medium items-center">
           <NavLink to="/">
             <li className="py-1 hover:bg-blue-400 hover:text-white w-20 text-center rounded-full">
               HOME
@@ -96,7 +69,7 @@ const Navbar = () => {
           </NavLink>
         </ul>
 
-        {/* Profile or Register Button */}
+        {/* Profile or Register */}
         <div className="flex items-center gap-4">
           {token ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
@@ -141,7 +114,6 @@ const Navbar = () => {
               Register
             </button>
           )}
-          <i className="bi bi-list text-3xl md:hidden cursor-pointer"></i>
         </div>
       </div>
     </>
