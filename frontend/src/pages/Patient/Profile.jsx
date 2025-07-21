@@ -85,7 +85,14 @@ const Profile = () => {
     };
 
     try {
-      const res = await fetch('/api/profile/update', {
+      
+     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile/update`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(payload),
+});
+const data = await res.json();
+ {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
