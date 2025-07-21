@@ -4,7 +4,8 @@ import { assets } from '../../assets/assets';
 export const fetchUserProfile = createAsyncThunk(
   'profile/fetchUserProfile',
   async (patientId) => {
-    const res = await fetch(`/api/profile/${patientId}`);
+const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile/${patientId}`);
+
     if (!res.ok) throw new Error('Failed to fetch profile');
     return await res.json();
   }
