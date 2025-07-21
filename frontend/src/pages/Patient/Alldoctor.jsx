@@ -16,7 +16,7 @@ const Alldoctor = () => {
       .catch(console.error);
   }, []);
 
-// Helper to extract first letter after "Dr" or "Dr."
+// extract first letter after "Dr" or "Dr."
 const getFirstLetter = (name = '') => {
   if (!name) return '?';
 
