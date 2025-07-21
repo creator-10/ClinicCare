@@ -16,21 +16,16 @@ const Alldoctor = () => {
       .catch(console.error);
   }, []);
 
-const getFirstLetter = (name = '') => {
-  if (!name) return '?';
-
-  const drMatch = /^dr\.?\s*/i;
-  const normalized = name.trim();
-
- 
-  if (drMatch.test(normalized)) {
-    const rest = normalized.replace(drMatch, '').trim();
-    return rest.charAt(0).toUpperCase() || '?';
-  }
-
-  return normalized.charAt(0).toUpperCase();
-};
-
+  // Helper to extract first letter after "Dr."
+  const getFirstLetter = (name = '') => {
+    if (!name) return '?';
+    const parts = name.split('.');
+    if (parts.length > 1 && parts[0].toLowerCase().includes('dr')) {
+      const afterDr = parts[1].trim();
+      return afterDr.charAt(0).toUpperCase();
+    }
+    return name.trim().charAt(0).toUpperCase();
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -53,10 +48,10 @@ const getFirstLetter = (name = '') => {
                 className="w-[60px] h-[60px] cursor-pointer hover:scale-110 transition-transform"
               />
             </Link>
-            <h2 className="absolute left-1/2 transform -translate-x-1/2 text-5xl font-black text-white uppercase z-0">
+            <h2 className="absolute left-1/2 transform -translate-x-1/2 text-5l font-black text-white uppercase z-0">
               Our Doctors
             </h2>
-            <Link to="/login" className="z-10">
+            <Link to="/appointment-booking" className="z-10">
               <img
                 src={assets.booknow}
                 alt="Book Now"
