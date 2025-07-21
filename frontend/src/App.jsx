@@ -3,12 +3,12 @@ import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+
+
+
 // Layouts
 import MainLayout from "./components/MainLayout";
 import Navbar from "./components/Navbar";
-
-//mobile-responsive
-import './global.css';
 
 // Toastify
 import { ToastContainer } from "react-toastify";
@@ -41,7 +41,7 @@ import Reports from "./pages/Admin/Reports";
 import AddDoctor from "./pages/Admin/AddDoctor";
 import DoctorList from "./pages/Admin/DoctorList";
 
-function App() {
+function AppWrapper() {
   const { token, role } = useSelector((state) => state.auth);
   const location = useLocation();
 
@@ -69,7 +69,7 @@ function App() {
       <div className="scroll-box">
         {location.pathname !== "/login" && <Navbar />}
 
-       <Routes>
+        <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Patient_webpage />} />
           <Route
@@ -78,7 +78,6 @@ function App() {
           />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-           <Route path="/doctors" element={<Alldoctor />} />
 
           {/* Protected Patient Routes */}
           {token && role === "patient" && (
@@ -87,7 +86,7 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/feedback" element={<Feedback />} />
-               
+                <Route path="/doctors" element={<Alldoctor />} />
                 <Route path="/my_appointment" element={<MyAppointment />} />
                 <Route path="/appointment-history" element={<AppointmentHistory />} />
               </Route>
@@ -139,4 +138,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppWrapper;
