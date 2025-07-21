@@ -1,1 +1,1 @@
-# ClinicCare
+# Medico
