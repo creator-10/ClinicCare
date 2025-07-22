@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import PatientSidebar from '../../components/PatientSidebar';
+
 import axios from 'axios';
 import { assets } from "../../assets/assets"; // ✅ Correct image import
 
